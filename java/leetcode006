@@ -1,0 +1,43 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Stack;
+
+public class leetcode006 {
+  public class TreeNode {
+      int val;
+      TreeNode left;
+      TreeNode right;
+      TreeNode(int x) { val = x; }
+  }
+  //后续遍历打印二叉树
+    ArrayList<Integer> res=new ArrayList<>();
+    public ArrayList<Integer> postorderTraversal(TreeNode root) {
+        postorderTraversal_(root);
+        return res;
+    }
+
+    private void postorderTraversal_(TreeNode root) {
+        if(root==null) return ;
+        postorderTraversal_(root.left);
+        postorderTraversal_(root.right);
+        res.add(root.val);
+    }
+
+    //用栈来实现
+    //题目要求左右根的顺序遍历树，我们可以使用stack以根右左的顺序遍历树，
+    //可以用递归证明根右左遍历得到的序列与左右根得到的正好相反
+    public ArrayList<Integer> postorderTraversal_new(TreeNode root) {
+        ArrayList<Integer> res=new ArrayList<>();
+        if(root==null) return res;
+        Stack<TreeNode> stack=new Stack<>();
+        stack.push(root);
+        while(!stack.isEmpty()){//不能使用stack.peek()!=null判断非空，因为 peek()方法会报空指针异常
+           TreeNode node=stack.pop();
+           res.add(node.val);
+           if(node.left!=null) stack.push(node.left);//注意要先判断节点是否为空
+           if(node.right!=null) stack.push(node.right);
+        }
+        Collections.reverse(res);
+        return res;
+    }
+}

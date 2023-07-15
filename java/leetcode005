@@ -1,0 +1,26 @@
+public class leetcode005 {
+
+    //使用插入排序对链表进行排序。
+    class ListNode {
+        int val;
+        ListNode next;
+        ListNode(int x) {
+            val = x;
+            next = null;
+        }
+    }
+    //解题思路：利用递归
+    public ListNode insertionSortList(ListNode head) {
+        if(head==null||head.next==null) return head;
+        ListNode node=insertionSortList(head.next);
+        ListNode tmp=head;
+        while(node!=null&&tmp.val>node.val){
+            int temp=tmp.val;
+            tmp.val=node.val;
+            node.val=temp;
+            tmp=node;
+            node=node.next;
+        }
+        return head;
+    }
+}

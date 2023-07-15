@@ -1,0 +1,93 @@
+public class leetcode001_done {
+
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int x) {
+            val = x;
+        }
+    }
+
+    //首先我们把root为空的情况排除在外
+    //然后就能非常顺畅的递归
+    //1. 先判断当前节点是否为触底条件（左右儿子是否为空）
+    //2. 当前节点到最近叶节点的距离 == 左儿子到它最近叶节点的距离 + 右儿子到他最近叶节点的距离
+    //这道题绕在，root == null时的返回值与我们解题中规定节点为空时的返回值不一致
+    public int run(TreeNode root) {
+        if (root == null) return 0;
+        return getMinLen(root);
+    }
+
+    public int getMinLen(TreeNode node) {
+        if (node == null) return Integer.MAX_VALUE;
+        if (node.left == null && node.right == null) return 1;
+        
+        int leftLen = getMinLen(node.left);
+        int rightLen = getMinLen(node.right);
+        return leftLen > rightLen ? rightLen + 1 : leftLen + 1;
+    }
+
+    //BFS解法
+    //    //状态起始值注意
+    //    Integer depth = 0; //Integer不方便进行值引用传递，因为小数值操作回因为缓存而直接替换地址
+    //    public int run(TreeNode root){
+    //        if(root == null){
+    //            return 0;
+    //        }
+    //        //记住使用queue的两个接口，offer和poll
+    //        LinkedList<TreeNode> queue = new LinkedList<>();
+    //        queue.offer(root);
+    //        BFS(queue);
+    //        return depth;
+    //    }
+//    public void BFS(LinkedList<Main.TreeNode> queue){
+//        while(queue.size() > 0) {
+//            int size = queue.size();
+//            depth++;
+//            for (int i = 0; i < size; i++) {
+//                Main.TreeNode node = queue.poll();
+//                if (node.left == null && node.right == null) {
+//                    return;
+//                }
+//                //存入的数据要注意是否能混杂空与非空数据
+//                if (node.left != null) {
+//                    queue.offer(node.left);
+//                }
+//                if (node.right != null) {
+//                    queue.offer(node.right);
+//                }
+//            }
+//        }
+//    }
+
+
+//    DFS来解
+//    Integer depth = Integer.MAX_VALUE;
+//    public int run(TreeNode root){
+//        if(root == null){
+//            return 0;
+//        }
+//
+//        DFS(root, 0);
+//        return depth;
+//    }
+//
+//    public void DFS(TreeNode node, int prev_depth) {
+//         //到底了
+//        if(node == null) {
+//          return ;
+//        }
+//
+//        int current_depth = prev_depth + 1;
+//        //找到目标了
+//        if(node.left == null && node.right == null){
+//            depth = current_depth < depth ? current_depth : depth;
+//            return;
+//        }
+//        DFS(node.left, current_depth);
+//        DFS(node.right, current_depth);
+//    }
+
+}

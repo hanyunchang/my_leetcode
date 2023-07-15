@@ -1,0 +1,42 @@
+import java.util.List;
+
+public class leetcode004 {
+    class ListNode {
+     int val;
+      ListNode next;
+      ListNode(int x) {
+          val = x;
+          next = null;
+      }
+  }
+  //要求：时间复杂度O(nlgn)，空间复杂度：O(1)
+    private ListNode gb(ListNode left, ListNode right) {
+        ListNode Head=new ListNode(-1);
+        ListNode current=Head;
+        while(left!=null&&right!=null){
+            if(left.val<right.val){
+               current.next=left;
+               left=left.next;
+            }else{
+                current.next=right;
+                right=right.next;
+            }
+            current=current.next;
+        }
+        current.next=(left!=null?left:right);
+        return Head.next;
+    }
+    //------用快慢指针求middle
+    public ListNode sortList(ListNode head) {
+        if(head==null||head.next==null) return head; //slow是第len/2-1个元素，加上head.next==null的情况是避免len==1时出现死循环
+         ListNode slow=head;                         //这里让slow为len/2-1,是为了避免出现死循环，考虑slow最后位于len/2+1并且len==2
+         ListNode fast=head.next.next;               //这时，该链表被切分为left_len==2,right_len==0,产生死循环
+         while(fast!=null&&fast.next!=null){
+             fast=fast.next.next;
+             slow=slow.next;
+         }
+         ListNode right=slow.next;slow.next=null;
+         return gb(sortList(head),sortList(right));
+    }
+
+}

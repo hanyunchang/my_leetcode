@@ -1,0 +1,25 @@
+import java.util.LinkedList;
+import java.util.Stack;
+
+public class leetcode002 {
+    public int evalRPN (String[] tokens) {
+        Stack<Integer> stack = new Stack<>();
+        for(String token : tokens) {
+            //填数
+            if (!token.equals("+") && !token.equals("-") && !token.equals("*") && !token.equals("/")) {
+                stack.push(Integer.parseInt(token));
+                continue;
+            }
+            //计算
+            int afterNum = stack.pop();
+            int beforeNum = stack.pop();
+            switch (token) {
+                case "+": stack.push(beforeNum + afterNum);break;
+                case "-": stack.push(beforeNum - afterNum);break;
+                case "*": stack.push(beforeNum * afterNum);break;
+                case "/": stack.push(beforeNum / afterNum);break;
+            }
+        }
+        return stack.pop();
+    }
+}

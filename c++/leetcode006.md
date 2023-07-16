@@ -1,3 +1,4 @@
+```
 /**
  * struct TreeNode {
  *	int val;
@@ -6,7 +7,7 @@
  * };
  */
 
-```
+
 class Solution {
 public:
     /**
@@ -26,7 +27,7 @@ public:
         return vec;
     }
 };
-```
+
 --------
 * 用栈来实现
 #include <algorithm>
@@ -70,7 +71,7 @@ public:
         return vec;
     }
 };
-
+```
 ---------
 * c++ 反转vector
 ![Alt text](image-3.png)

@@ -6,6 +6,7 @@
  * };
  */
 
+```
 class Solution {
 public:
     /**
@@ -25,7 +26,7 @@ public:
         return vec;
     }
 };
-
+```
 --------
 * 用栈来实现
 #include <algorithm>

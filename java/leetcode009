@@ -1,0 +1,35 @@
+public class leetcode009 {
+    class ListNode {
+        int val;
+        ListNode next;
+        ListNode(int x) {
+            val = x;
+            next = null;
+        }
+    }
+   /*
+    对于一个给定的链表，返回环的入口节点，如果没有环，返回null
+    拓展：
+    你能给出不利用额外空间的解法么？
+    */
+
+    //快慢指针法，原理见博客
+    // https://editor.csdn.net/md/?not_checkout=1
+    public ListNode detectCycle(ListNode head) {
+      ListNode fast=head,slow=head;
+      while(fast!=null&&fast.next!=null){
+          slow=slow.next;
+          fast=fast.next.next;
+          if(slow==fast) return getNode(head,fast);
+      }
+      return null;
+    }
+
+    private ListNode getNode(ListNode head, ListNode fast) {
+        while(head!=fast){
+            head=head.next;
+            fast=fast.next;//注意这里fast要改为每次走一步
+        }
+        return fast;
+    }
+}

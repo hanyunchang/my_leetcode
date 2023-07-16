@@ -1,0 +1,78 @@
+public class leetcode008 {
+    class ListNode {
+        int val;
+        ListNode next;
+        ListNode(int x) {
+            val = x;
+            next = null;
+        }
+    }
+    /*
+    将给定的单链表L： L 0→L 1→…→L n-1→L n,
+    重新排序为： L 0→L n →L 1→L n-1→L 2→L n-2→…
+    要求使用原地算法，并且不改变节点的值
+    例如：
+    对于给定的单链表{1,2,3,4}，将其重新排序为{1,4,2,3}.
+     */
+    public void reorderList(ListNode head) {
+       if(head==null||head.next==null||head.next.next==null) return ;//head.next.next==null的判断是必要的,考虑1->2的情况
+       ListNode tmp=head;
+       while(tmp.next.next!=null)
+           tmp=tmp.next;
+       tmp.next.next=head.next;
+       head.next=tmp.next;
+       tmp.next=null;//切断原来倒数第二个对倒数第一个的引用，否则会造成环
+       reorderList(head.next.next);
+    }
+
+    //如果追求效率的话，可以将链表一分为二，反转后面的链表然后交错插入
+    public void reorderList_(ListNode head) {
+        if(head==null||head.next==null||head.next.next==null) return ;
+       ListNode node=getMIddle(head);
+       ListNode right=node.next;
+       node.next=null;
+       right=reverse(right);
+       head=hebing(head,right);
+    }
+
+    private ListNode getMIddle(ListNode head) {
+        if(head==null||head.next==null||head.next.next==null) return null;
+        ListNode fast=head.next.next;
+        ListNode slow=head;
+        while(fast!=null&&fast.next!=null){
+            slow=slow.next;
+            fast=fast.next.next;
+        }
+        return slow;
+    }
+
+    private ListNode hebing(ListNode left, ListNode right) {//尾插法
+        ListNode Head=new ListNode(-1);
+        ListNode tmp=Head;
+        while(left!=null){
+            tmp.next=left;
+            tmp=tmp.next;
+            left=left.next;
+            if(right!=null){
+                tmp.next=right;
+                tmp=tmp.next;
+                right=right.next;
+            }
+        }
+        if(right!=null) tmp.next=right;
+        return Head.next;
+    }
+
+    private ListNode reverse(ListNode right) {//头插法实现反转列表
+        ListNode Head=new ListNode(-1);
+        ListNode tmp;
+        while(right!=null){//这里需要留神，有点绕
+           tmp=right.next;
+           right.next=Head.next;
+           Head.next=right;
+           right=tmp;//也就是说right指向了曾经的right.next
+        }
+        return Head.next;
+    }
+
+}

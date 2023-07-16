@@ -1,0 +1,101 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
+public class leetcode010 {
+    /*
+    给定一个字符串s和一组单词dict，在s中添加空格将s变成一个句子，使得句子中的每一个单词都是dict中的单词
+    返回所有可能的结果
+    例如：给定的字符串s ="catsanddog",
+    dict =["cat", "cats", "and", "sand", "dog"].
+
+    返回的结果为["cats and dog", "cat sand dog"].
+     */
+/*
+从前往后递归与从后往前递归按理说应该是一样的，可是前者测试时竟然超时
+ */
+    ArrayList<String> res=new ArrayList<>();
+    public ArrayList<String> wordBreak(String s, Set<String> dict) {
+        if(s==null||s.length()==0) return res;
+        if(dict==null||dict.size()==0) {
+            res.add(s);return res;
+        }
+        dfs(s,s.length(),dict,"");
+        return res;
+    }
+
+
+
+    //从后往前递归
+    private void dfs(String s, int end, Set<String> dict, String lan) {
+        if(end<=0){
+            if(lan.length()>0)
+                res.add(lan.substring(0,lan.length()-1));
+        }else{
+            for(int start=end-1;start>=0;start--){
+                String w=s.substring(start,end);
+                if(dict.contains(w)){
+                    dfs(s,start,dict,w+" "+lan);
+                }
+            }
+        }
+
+    }
+
+   //从前往后递归
+    private void fs(String s, int start, Set<String> dict, String lan) {
+        if(start>=s.length())
+            res.add(lan.substring(0,lan.length()-1));
+        else{
+            for(int end=start;end<=s.length();end++){
+                String w=s.substring(start,end);
+                if(dict.contains(w)){
+                    fs(s,end,dict,lan+w+" ");
+                }
+            }
+        }
+
+    }
+
+
+
+
+
+
+
+
+    public static void main(String[] args) {
+        Set<String> dict=new HashSet<>();
+        dict.add("a");
+        new leetcode010().wordBreak("a",dict);
+
+    }
+
+
+
+
+
+    private void wordBreak_(String s, int i, Set<String> dict, StringBuilder builder) {
+        //先判断i是否走到了尽头
+        //遍历符合条件的单词，接着然后接着递归，回来后builder删除该单词
+        if(i==s.length()){
+            res.add(builder.substring(1,builder.length()).toString());
+            return;
+        }
+        int end=i+1;
+        while(end<=s.length()){
+            String str=s.substring(i,end);
+            //遍历dict
+            for(String word:dict){
+                if(word.equals(str)){
+                    builder.append(" "+word);
+                    wordBreak_(s,end,dict,builder);
+                    builder.delete(builder.length()-word.length()-1,builder.length());
+                }
+            }
+        }
+    }
+
+
+}

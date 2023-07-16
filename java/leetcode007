@@ -1,0 +1,25 @@
+import java.util.ArrayList;
+import java.util.Stack;
+
+public class leetcode007 {
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode(int x) { val = x; }
+    }
+    //求前序遍历
+    public ArrayList<Integer> preorderTraversal(TreeNode root) {
+        if(root==null) return new ArrayList<>();
+        ArrayList<Integer> res=new ArrayList<>();
+        Stack<TreeNode> stack=new Stack<>();
+        stack.push(root);
+        while(!stack.isEmpty()){
+            TreeNode node=stack.pop();
+            res.add(node.val);
+            if(node.right!=null) stack.push(node.right);
+            if(node.left!=null) stack.push(node.left);
+        }
+        return res;
+    }
+}

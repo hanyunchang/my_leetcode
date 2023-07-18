@@ -1,0 +1,76 @@
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Set;
+
+public class leetcode011 {
+/*
+给定一个字符串s和一组单词dict，判断s是否可以用空格分割成一个单词序列，使得单词序列中所有的单词都是dict中的单词（序列可以包含一个或多个单词）。
+例如:
+给定s=“leetcode”；
+dict=["leet", "code"].
+返回true，因为"leetcode"可以被分割成"leet code".
+ */
+//https://www.nowcoder.com/questionTerminal/5f3b7bf611764c8ba7868f3ed40d6b2c?answerType=1&f=discussion
+
+    public boolean wordBreak(String s, Set<String> dict) {
+       if(s==null||s.length()==0||dict==null||dict.size()==0)
+           return false;
+       return BFS(s,dict);
+    }
+    //1. leetcode官方解法 BFS
+    private boolean BFS(String s, Set<String> dict) {
+        Queue<Integer> queue=new LinkedList<>();
+        boolean[] marked=new boolean[s.length()+1];//注意这里的长度
+        queue.add(0);
+        while(!queue.isEmpty()){
+            int start=queue.remove();
+            for(int i=start+1;i<=s.length();i++){
+                if(marked[i]==false&&dict.contains(s.substring(start,i))){
+                    queue.add(i);
+                    marked[i]=true;
+                }
+            }
+        }
+        return marked[s.length()];
+    }
+
+    
+    //2. 动态规划
+    public boolean guihua(String s,Set<String> wordDict){
+        int len=s.length();
+        boolean[] flags=new boolean[len+1];
+        flags[0]=true;
+
+        for(int i=1;i<=len;i++){
+            for(int j=0;j<i;j++){
+                if(flags[j]==true&&wordDict.contains(s.substring(j,i))){
+                    flags[i]=true;
+                    break;
+                }
+            }
+        }
+        return flags[len];
+    }
+    //记录已算结果以方便重用,递归
+    public boolean word_Break(String s,Set<String> wordDict,int start,Boolean[] memo){
+        if(start==s.length()) return true;
+        if(memo[start]!=null) return memo[start];//这就是用Boolean不用booelan的意义,可以记录三个状态，null,false,true
+        for(int end=start+1;end<=s.length();end++){
+            if(wordDict.contains(s.substring(start,end))&&word_Break(s,wordDict,end,memo))
+                return memo[start]=true;
+        }
+        return memo[start]=false;
+    }
+
+    //这种递归方式最坏情况会达到2^n，例如”aaaaaaaa“   [”a“]
+    private boolean wordBreak_(String s, Set<String> dict) {
+        if(s.equals("")) return true;
+        for(int i=1;i<=s.length();i++){
+            String w=s.substring(0,i);
+            if(dict.contains(w)&&wordBreak_(s.substring(i,s.length()),dict))
+                return true;
+        }
+        return false;
+    }
+
+}

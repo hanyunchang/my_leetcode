@@ -1,0 +1,20 @@
+public class leetcode013 {
+    //现在有一个整数类型的数组，数组中只有一个元素只出现一次，其余元素都出现三次。你需要找出只出现一次的元素
+    //注意：
+    //你需要给出一个线性时间复杂度的算法，你能在不使用额外内存空间的情况下解决这个问题么？
+    //这个解法真是牛逼class  https://www.nowcoder.com/questionTerminal/1097ca585245418ea2efd0e8b4d9eb7a?f=discussion
+    public int singleNumber(int[] A) {
+       int ones=0;//新位为1 ones为0 计为1 若ones为1则置为0(该位会加到twos中) 最后去掉出现超过三次及以上的位，于是ones最后记录的是只出现一次的位
+       int twos=0;//每次加上新的出现了两次的位，然后去掉出现超过三次及以上的位，于是twos最后记录的是只出现2次的位
+       int threes;
+       for(int i=0;i<A.length;i++){
+           int t=A[i];
+           twos=twos|(ones&t);  //要先计算twos
+           ones=ones^t;
+           threes=ones&twos;
+           ones&=~threes;
+           twos&=~threes;
+       }
+       return ones;
+    }
+}

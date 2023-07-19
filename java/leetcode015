@@ -1,0 +1,62 @@
+import java.util.ArrayList;
+
+public class leetcode015 {
+    //有N个小朋友站在一排，每个小朋友都有一个评分
+    //你现在要按以下的规则给孩子们分糖果：
+    //每个小朋友至少要分得一颗糖果
+    //分数高的小朋友要他比旁边得分低的小朋友分得的糖果多
+    //你最少要分发多少颗糖果？
+
+
+    //another way 先保证所有的孩子都有一块糖，然后正向遍历一次，反向遍历一次
+    //注意相等的未必也相同，如 1 3 3 3 1对应的res为1 2 1 2 1
+
+    /**
+     * 证明：这道题是两遍贪心算法的应用
+     * 先考虑这样一个问题，
+     * 有N个小朋友站在一排，每个小朋友都有一个评分
+     * 现在我们已经保证了小朋友右边边评分高的拿的糖果比左边的高
+     * 现在让让你设计一个程序，使得小朋友左边评分高的拿的糖果比右边的高，使得分发的糖果数量最少，请问如何设计？
+     *
+     */
+    public int candy(int[] ratings) {
+        int[] res=new int[ratings.length];
+      for(int i=0;i<res.length;i++)
+          res[i]=1;
+      for(int i=1;i<ratings.length;i++){
+          if(ratings[i]>ratings[i-1]) res[i]=res[i-1]+1;
+      }
+      for(int i=ratings.length-2;i>=0;i--){
+          if(ratings[i]>ratings[i+1]&&res[i+1]>=res[i]){//这里要注意顶峰时的情况
+              res[i]=res[i+1]+1;
+          }
+      }
+      int sum=0;
+      for(int i=0;i<res.length;i++)
+          sum+=res[i];
+      return sum;
+    }
+    
+
+    //我的思路
+    public int candy_(int[] ratings) {
+     //可以先找出所有的凹点，根据每个凹点来计算
+        ArrayList<Integer> arr=getNodes(ratings);
+        int sum=0;
+        for(int i:arr){
+            sum+=compute(ratings,i);
+        }
+        return sum;
+    }
+
+    private int compute(int[] ratings, int i) {
+        return -1;
+    }
+
+    private ArrayList<Integer> getNodes(int[] ratings) {
+        return null;
+    }
+
+
+
+}

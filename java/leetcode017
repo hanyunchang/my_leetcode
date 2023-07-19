@@ -1,0 +1,32 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+public class leetcode017 {
+     class UndirectedGraphNode {
+         int label;
+      ArrayList<UndirectedGraphNode> neighbors;
+      UndirectedGraphNode(int x) { label = x; neighbors = new ArrayList<UndirectedGraphNode>(); }
+  };
+     //先深度递归深度优先遍历，用map建立映射关系，再遍历map存储对应neighbors
+    public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
+        Map<UndirectedGraphNode,UndirectedGraphNode> map=new HashMap<>();
+        dfs(node,map);
+        for(UndirectedGraphNode oldNode:map.keySet()){
+            UndirectedGraphNode newNode=map.get(oldNode);
+            for(UndirectedGraphNode neighbor:oldNode.neighbors){
+                newNode.neighbors.add(map.get(neighbor));
+            }
+        }
+        return map.get(node);
+    }
+
+    private void dfs(UndirectedGraphNode node, Map<UndirectedGraphNode, UndirectedGraphNode> map) {
+        if(node==null) return ;
+        if(map.get(node)!=null) return ;//这边刚一开始写成了==
+        UndirectedGraphNode newNode=new UndirectedGraphNode(node.label);
+        map.put(node,newNode);//第一次竟然忘了写这一步
+        for(UndirectedGraphNode oldNode:node.neighbors)
+            dfs(oldNode,map);
+    }
+}

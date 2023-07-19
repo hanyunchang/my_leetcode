@@ -1,0 +1,47 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+public class leetcode019 {
+
+    //写的太绕了，我再写的话可能总体上使用一个for循环
+    public ArrayList<ArrayList<String>> partition(String s) {
+        Map<String,ArrayList<ArrayList<String>>> map=new HashMap<>();
+        return DFS(s,map);
+    }
+
+    private ArrayList<ArrayList<String>> DFS(String s, Map<String, ArrayList<ArrayList<String>>> map) {
+        ArrayList<ArrayList<String>> res=new ArrayList<>();
+        if(s==null||s.length()==0){
+            ArrayList<String> a=new ArrayList<>();
+            a.add("");
+            res.add(a);
+            return res;
+        }
+        if(map.containsKey(s)) return map.get(s);
+        for(int i=0;i<s.length();i++){
+            if(isOK(s.substring(0,i+1))){
+                for(ArrayList<String> strs:DFS(s.substring(i+1,s.length()),map)){
+                    ArrayList<String> arrayList=new ArrayList<>();
+                    arrayList.add(s.substring(0,i+1));
+                    if(strs.size()>0&&!strs.get(0).equals("")) arrayList.addAll(strs);//这里要注意一下
+                    res.add(arrayList);
+                }
+            }
+        }
+        map.put(s,res);
+        return res;
+    }
+
+    private boolean isOK(String str) {
+        char[] arr=str.toCharArray();
+        int s=0,e=arr.length-1;
+        while(s<=e){
+            if(arr[s]!=arr[e]) return false;
+            s++;e--;
+        }
+        return true;
+    }
+
+
+}

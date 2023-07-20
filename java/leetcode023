@@ -1,0 +1,116 @@
+import java.util.*;
+
+public class leetcode023_ {
+    //给定两个单词（初始单词和目标单词）和一个单词字典，请找出所有的从初始单词到目标单词的最短转换序列：
+    //每一次转换只能改变一个单词
+    //每一个中间词都必须存在单词字典当中
+    //例如：
+    //给定的初始单词start="hit"，
+    //目标单词end ="cog"。
+    //单词字典dict =["hot","dot","dog","lot","log"]
+    //返回的结果为：
+    //  [↵    ["hit","hot","dot","dog","cog"],↵    ["hit","hot","lot","log","cog"]↵  ]
+    //注意：
+    //题目中给出的所有单词的长度都是相同的
+    //题目中给出的所有单词都仅包含小写字母
+
+    //leetcode success 哭了！！！！！
+    public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
+          return findLadders(beginWord,endWord,new HashSet<>(wordList));
+    }
+    public List<List<String>> findLadders(String start, String end, HashSet<String> dict) {
+         Map<String,Set<String>> map=new HashMap<>();
+        //初始化map
+        map.put(start,new HashSet<>());
+        map.put(end,new HashSet<>());//针对于leetcode,我默认end是在dict里面的，但是测试用例有不在里面的情况，但是那种情况下，只要添加这一步就好了，否则map.get会报空指针异常
+        for(String word:dict)
+            map.put(word,new HashSet<>());
+         build(map,dict,start);
+         genetatePath(end,start,map);
+         return res;
+    }
+    ArrayList<List<String>> res=new ArrayList<>();
+    ArrayList<String> temp_path=new ArrayList<>();
+    private void genetatePath(String start, String end, Map<String, Set<String>> map) {
+        temp_path.add(start);
+        if(start.equals(end)){
+            ArrayList<String> arr=new ArrayList<>(temp_path);
+            Collections.reverse(arr);
+            res.add(arr);
+            temp_path.remove(start);//开始忘了删除这里
+            return ;
+        }
+        for(String str:map.get(start)){
+            genetatePath(str,end,map);
+        }
+        temp_path.remove(start);
+    }
+
+    public void build(Map<String,Set<String>> map,HashSet<String> dict,String start){
+        Set<String> currentStep=new HashSet<>();
+        Set<String> nextStep=new HashSet<>();
+        Set<String> tmp=null;
+        currentStep.add(start);
+        while(!currentStep.isEmpty()&&!dict.isEmpty()){
+            for(String str:currentStep){
+                //判断，添加
+                for(String word:dict){
+                    if(isOK(str.toCharArray(),word.toCharArray())){
+                        nextStep.add(word);
+                        map.get(word).add(str);//反向邻接表，可以这样想象，一个点可以有多个指针，都往中心指
+                    }
+                }
+            }
+            //删除最新层的word
+            for(String str:nextStep)
+                dict.remove(str);
+
+            currentStep.clear();
+            tmp=currentStep;
+            currentStep=nextStep;
+            nextStep=tmp;
+        }
+    }
+
+    private boolean isOK(char[] arr1, char[] arr2) {
+        if(arr1.length!=arr2.length) return  false;
+        int flag=0;
+        for(int i=0;i<arr1.length;i++)
+            if(arr1[i]!=arr2[i]) flag++;
+         return flag==1;
+    }
+
+    public static void main(String[] args) {
+        String start="hit";
+        String end="cog";
+        HashSet<String> dict=new HashSet<>();
+        dict.add("hot");
+        dict.add("dot");
+        dict.add("dog");
+        dict.add("lot");
+        dict.add("log");
+        dict.add("cog");
+        leetcode023_ obj=new leetcode023_();
+        obj.findLadders(start,end,dict);
+
+    }
+    //可以模拟层序遍历，思路可行
+//    ArrayList<ArrayList<String>> res=new ArrayList<>();
+//    public ArrayList<ArrayList<String>> findLadders(String start, String end, HashSet<String> dict) {
+//        Queue<String> queue=new LinkedList<>();
+//        Set<String> set=new HashSet<>();
+//        queue.add(start);
+//        while(!queue.isEmpty()){
+//            String str=queue.remove();
+//            for(String word:dict){
+//                if(!set.contains(str)&&isCan(str,word)){
+//
+//                }
+//            }
+//            set.add(str);
+//        }
+//    }
+//
+//    private boolean isCan(String str, String word) {
+//    }
+}

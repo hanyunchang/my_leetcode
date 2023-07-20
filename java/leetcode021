@@ -1,0 +1,37 @@
+public class leetcode021 {
+  public class TreeNode {
+      int val;
+      TreeNode left;
+      TreeNode right;
+      TreeNode(int x) { val = x; }
+  }
+  //给定一个仅包含数字0-9的二叉树，每一条从根节点到叶子节点的路径都可以用一个数字表示。
+  //例如根节点到叶子节点的一条路径是1->2->3,那么这条路径就用123来代替。
+  //找出根节点到叶子节点的所有路径表示的数字之和
+  //例如：
+  //    1↵   / ↵  2   3
+  //根节点到叶子节点的路径1->2用数字12代替
+  //根节点到叶子节点的路径1->3用数字13代替
+  //所以答案为12+13=25
+    public int sumNumbers(TreeNode root) {
+      if(root==null) return 0;
+       int sum=0;
+       sum=dfs(sum,root,0);
+       return sum;
+    }
+
+    private int dfs(int sum, TreeNode root,int tmp) {
+      tmp=tmp*10+root.val;
+      if(root.left==null&&root.right==null){
+          sum+=tmp;return sum;
+      }
+      if(root.left!=null){
+          sum=dfs(sum,root.left,tmp);
+      }
+      if(root.right!=null){
+          sum=dfs(sum,root.right,tmp);
+      }
+      //tmp=tmp/10;因为是基本类型所以不需要手动回溯
+      return sum;
+    }
+}

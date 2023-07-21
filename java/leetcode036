@@ -1,0 +1,44 @@
+import java.util.ArrayList;
+
+public class leetcode036 {
+      public static class TreeNode {
+        int val;
+      TreeNode left;
+      TreeNode right;
+      TreeNode(int x) { val = x; }
+      }
+
+      ArrayList<ArrayList<Integer>> res=new ArrayList<>();
+    public ArrayList<ArrayList<Integer>> pathSum(TreeNode root, int sum) {
+          if(root==null)  return res;
+        DFS(root,new ArrayList<>(),sum,0);
+        return res;
+    }
+
+    private void DFS(TreeNode root, ArrayList<Integer> tmp, int sum,int value) {
+        if(root==null) return ;
+        if(root.left==null&&root.right==null){
+            if(value+root.val==sum){
+                ArrayList<Integer> arr=new ArrayList<>(tmp);
+                arr.add(root.val);
+                res.add(arr);
+            }
+            return ;
+        }
+        tmp.add(root.val);
+        DFS(root.left,tmp,sum,value+root.val);
+        DFS(root.right,tmp,sum,value+root.val);
+/*
+        tmp.remove(root.val);//天坑，ArrayList有remove(int index),remove(Object obj),所以这样会走第一个方法，从而数组越界
+        tmp.remove(new Integer(root.val));//修改成这样依然坑，它会将遇到的第一个元素删除，也就是说无法删除正确位置的元素从而造成bug
+ */
+        tmp.remove(tmp.size()-1);//正确写法
+    }
+
+    public static void main(String[] args) {
+        TreeNode node=new TreeNode(1);
+        node.left=new TreeNode(2);
+        leetcode036 obj=new leetcode036();
+        obj.pathSum(node,0);
+    }
+}

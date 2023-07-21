@@ -1,0 +1,65 @@
+import sun.reflect.generics.tree.Tree;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class leetcode034 {
+    public class TreeLinkNode {
+      int val;
+      TreeLinkNode left, right, next;
+      TreeLinkNode(int x) { val = x; }
+    }
+    //填充所有节点的next指针，指向它右兄弟节点。如果没有右兄弟节点，则应该将next指针设置为NULL。
+    //初始时，所有的next指针都为NULL
+    //注意：
+    //你只能使用常量级的额外内存空间
+    //可以假设给出的二叉树是一个完美的二叉树(即，所有叶子节点都位于同一层，而且每个父节点都有两个孩子节点)。
+
+    //一种更牛逼的解法，依次从左到右遍历，每次利用本层已经串联的结构来串联下层的结构
+    //class Solution {
+    //public:
+    //    void connect(TreeLinkNode *root) {
+    //        if (!root)
+    //            return;
+    //        TreeLinkNode *p = root, *q;
+    //        while (p->left) {
+    //            q = p;
+    //            while (q) {
+    //                q->left->next = q->right;
+    //                if (q->next)
+    //                    q->right->next = q->next->left;
+    //                q = q->next;
+    //            }
+    //            p = p->left;
+    //        }
+    //    }
+    //};
+
+
+    //我的思路，已过
+    public void connect(TreeLinkNode root) {
+        if(root==null) return ; //刚开始忘了判断这种情况了
+       Queue<TreeLinkNode> queue=new LinkedList<>();
+       queue.add(root);
+       int size=1;int tmp=0;
+       TreeLinkNode Head=new TreeLinkNode(-1);
+       while(!queue.isEmpty()){
+           TreeLinkNode tempNode=Head;
+           while(size-- >0){
+               TreeLinkNode next=queue.remove();
+               if(next.left!=null){
+                   queue.add(next.left);
+                   tmp++;
+               }
+               if(next.right!=null){
+                   queue.add(next.right);
+                   tmp++;
+               }
+               tempNode.next=next;
+               tempNode=next;
+           }
+           size=tmp;tmp=0;//第一次忘了将tmp归0了
+       }
+    }
+
+}

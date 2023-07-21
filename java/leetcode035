@@ -1,0 +1,68 @@
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+public class leetcode035__dp_learning {
+    //给定一个字符串S和一个字符串T，计算S中的T的不同子序列的个数。
+    //字符串的子序列是由原来的字符串删除一些字符（也可以不删除）在不改变相对位置的情况下的剩余字符
+    // （例如，"ACE"is a subsequence of"ABCDE"但是"AEC"不是）
+    //例如：
+    //S ="rabbbit", T ="rabbit"
+    //返回3
+
+
+    //----关键是  正确理解题意----
+    //In plain English, my understanding of the problem is now this: How many ways can you generate
+    // the string T by only removing (but not reordering) characters in S?
+
+    //借鉴了其他人的思路，很牛！
+    //---利用dp[i][j-1] 与 dp[i-1][j-1]的状态推出 dp[i][j]的状态---
+    //     **T  S-1***    **T-1  S-1**         **T   S***
+    //dp[i][j]代表i在j中的子序列个数
+    //为了方便code，在T与S前加上同一个一个只存在一次的特殊字符(隐式)，这里如果不理解去看
+    // https://www.nowcoder.com/profile/2343147/codeBookDetail?submissionId=20478624
+    //作者：WNDKSJDM 讲解中有一张图便于理解
+
+    //再说一遍 关键是正确理解题意
+
+    public  int  numDistinct(String S,String T){
+        //...
+        int[][] dp=new int[T.length()+1][S.length()+1];
+        for(int i=0;i<S.length()+1;i++) dp[0][i]=1;
+        for(int i=1;i<T.length()+1;i++) dp[i][0]=0;
+        for(int i=1;i<dp.length;i++){
+            for(int j=1;j<dp[0].length;j++){
+                if(S.charAt(j-1)==T.charAt(i-1)){
+                    dp[i][j]=dp[i-1][j]+dp[i-1][j-1];
+                }else{
+                    dp[i][j]=dp[i-1][j];
+                }
+            }
+        }
+        return dp[T.length()][S.length()];
+    }
+
+
+
+
+
+
+
+
+    public int numDistinct_(String S, String T) {
+        int[][] dp=new int[T.length()+1][S.length()+1];
+        for(int i=0;i<S.length()+1;i++) dp[0][i]=1;
+        for(int i=1;i<T.length()+1;i++) dp[i][0]=0;
+        for(int i=1;i<dp.length;i++){
+            for(int j=1;j<dp[0].length;j++){
+                if(S.charAt(j-1)==T.charAt(i-1)){
+                   dp[i][j]=dp[i][j-1]+dp[i-1][j-1];
+                }else{
+                    dp[i][j]=dp[i][j-1];
+                }
+            }
+        }
+        return dp[T.length()][S.length()];
+    }
+}

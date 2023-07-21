@@ -1,0 +1,19 @@
+public class leetcode027_didnot_pass {
+    //假设你有一个数组，其中第i个元素是某只股票在第i天的价格。
+    //设计一个算法来求最大的利润。你最多可以进行两次交易。
+    //注意:
+    //你不能同时进行多个交易(即，你必须在再次购买之前出售之前买的股票)。
+
+    //---没看懂的题解---
+    //public:
+    //    int maxProfit(vector<int>& prices) {
+    //        int buy1 = INT_MIN, sell1 = 0, buy2 = INT_MIN, sell2 = 0;
+    //        for(int i = 0; i < prices.size(); i++) {
+    //            buy1 = max(buy1, -prices[i]);
+    //            sell1 = max(sell1, buy1 + prices[i]);
+    //            buy2 = max(buy2, sell1 - prices[i]);
+    //            sell2 = max(sell2, buy2 + prices[i]);
+    //        }
+    //        return sell2;
+    //    }
+}

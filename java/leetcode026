@@ -1,0 +1,31 @@
+public class leetcode026 {
+    //给定一个二叉树，请计算节点值之和最大的路径的节点值之和是多少。
+    //这个路径的开始节点和结束节点可以是二叉树中的任意节点
+
+
+    public class TreeNode {
+      int val;
+      TreeNode left;
+      TreeNode right;
+      TreeNode(int x) { val = x; }
+  }
+
+  //需要思考
+    int max=Integer.MIN_VALUE;
+    public int maxPathSum(TreeNode root) {
+       DFS(root);
+       return max;
+    }
+
+    private int DFS(TreeNode root) {
+        if(root==null) return 0;
+        int left=DFS(root.left);
+        int right=DFS(root.right);
+        int x=root.val;
+        //是不是这里改动一下就好了
+//        root.val=Math.max(x,Math.max(x+left+right,Math.max(x+left,x+right)));
+//        max=Math.max(max,root.val);
+        max=Math.max(max,Math.max(x,Math.max(x+left+right,Math.max(x+left,x+right))));
+        return root.val=Math.max(x,Math.max(x+left,x+right));
+    }
+}

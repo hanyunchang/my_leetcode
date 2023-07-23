@@ -1,0 +1,25 @@
+import java.util.Arrays;
+
+public class leetcode042 {
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode(int x) { val = x; }
+    }
+
+    //给出一棵树的中序遍历和后序遍历，请构造这颗二叉树
+    //注意：
+    //保证给出的树中不存在重复的节点
+
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        if(inorder==null||inorder.length<=0) return null;
+        int x=postorder[postorder.length-1];
+        int index=0;
+        while(index<inorder.length&&inorder[index]!=x) index++;
+        TreeNode root=new TreeNode(x);
+        root.left=buildTree(Arrays.copyOfRange(inorder,0,index),Arrays.copyOfRange(postorder,0,index));
+        root.right=buildTree(Arrays.copyOfRange(inorder,index+1,inorder.length),Arrays.copyOfRange(postorder,index,postorder.length-1));
+        return root;
+    }
+}

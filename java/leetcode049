@@ -1,0 +1,46 @@
+public class leetcode049 {
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode(int x) { val = x; }
+    }
+    //二叉搜索树（BST）中的两个节点被错误地交换了，
+    //请在不改变树的结构的情况下恢复这棵树。
+    //备注；
+    //用O(n)的空间解决这个问题的方法太暴力了，你能设计一个常数级空间复杂度的算法么？
+    //如果你不清楚“{1,#,2,3}"的含义的话，请继续阅读
+    //我们用如下方法将二叉树序列化：
+    //二叉树的序列化遵循层序遍历的原则，”#“代表该位置是一条路径的终结，下面不再存在结点。
+    //例如：
+    //   1↵  / ↵ 2   3↵    /↵   4↵    ↵     5
+    //上述的二叉树序列化的结果是："{1,2,3,#,#,4,#,#,5}".
+
+    //思路：中序遍历 问题就变成了 一个升序的链表 交换了两个节点 让你去找到他们 然后恢复
+    //考虑1 3 5 7变成1 7 5 3 出现异常的点对为（7，5） （5，3）
+    //第一个异常对对应的异常点为前一个点，第二个异常对对应的异常点为第二个点
+    //同时还要考虑相邻节点交换的情况，见代码//***.....***处
+    TreeNode pre=null,p=null,q=null;
+    public void recoverTree(TreeNode root) {
+       DFS(root);
+       int tmp=p.val;
+       p.val=q.val;
+       q.val=tmp;
+    }
+
+    private void DFS(TreeNode root) {
+        if(root==null) return ;
+        DFS(root.left);
+        //...
+        if(pre!=null&&pre.val>root.val){
+            if(p==null){
+               p=pre;
+               q=root;//****考虑到相邻两节点交换的情况****
+            }else{
+                q=root;
+            }
+        }
+        pre=root;
+        DFS(root.right);
+    }
+}

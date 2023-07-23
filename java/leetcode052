@@ -1,0 +1,62 @@
+import sun.reflect.generics.tree.Tree;
+
+import java.util.ArrayList;
+
+public class leetcode052 {
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode(int x) { val = x; }
+    }
+    public ArrayList<TreeNode> generateTrees (int n) {
+        return DFS(1,n);
+    }
+
+    private ArrayList<TreeNode> DFS(int start, int end) {
+        ArrayList<TreeNode> roots=new ArrayList<>();
+        if(start>end){
+            roots.add(null);
+            return roots;
+        }
+        for(int i=start;i<=end;i++){
+            for(TreeNode left:DFS(start,i-1)){
+                for(TreeNode right:DFS(i+1,end)){
+                    TreeNode node=new TreeNode(i);
+                    node.left=left;
+                    node.right=right;
+                    roots.add(node);
+                }
+            }
+        }
+        return roots;
+    }
+
+
+//    public ArrayList<TreeNode> generateTrees(int n) {
+//           return generateTrees_(1,n+1);
+//    }
+
+//    private ArrayList<TreeNode> generateTrees_(int start, int end) {  //[start,end)
+//        ArrayList<TreeNode> res=new ArrayList<>();
+//        if(start>=end) {
+//            res.add(null);//牛客网大傻逼 竟然非得add null才行
+//            return res;
+//        }
+//        int root=start;
+//        while(root<end){
+//            ArrayList<TreeNode> lefts=generateTrees_(start,root);
+//            ArrayList<TreeNode> rights=generateTrees_(root+1,end);
+//            for(TreeNode left:lefts){
+//                for(TreeNode right:rights){
+//                    TreeNode node=new TreeNode(root);
+//                    node.left=left;
+//                    node.right=right;
+//                    res.add(node);
+//                }
+//            }
+//            root++;
+//        }
+//        return res;
+//    }
+}

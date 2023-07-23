@@ -1,0 +1,31 @@
+public class leetcode056 {
+    //将一个链表m位置到n位置之间的区间反转，要求使用原地算法，并且在一次扫描之内完成反转。
+    //例如：
+    //给出的链表为1->2->3->4->5->NULL, m = 2 ，n = 4,
+    //返回1->4->3->2->5->NULL.
+    //注意：
+    //给出的m，n满足以下条件：
+    //1 ≤ m ≤ n ≤ 链表长度
+    public class ListNode {
+      int val;
+      ListNode next;
+      ListNode(int x) {
+          val = x;
+          next = null;
+      }
+    }
+    public ListNode reverseBetween(ListNode head, int m, int n) {
+        ListNode Head=new ListNode(-1);
+        Head.next=head;
+        ListNode StartPre=Head;
+        for(int i=1;i<m;i++) StartPre=StartPre.next;//刚开始这里用while循环，直接对m--,造成了bug
+        ListNode end=StartPre.next;//我刚一开始尝试让end的初始值为StartPre 它的坏处是end会操作StartPre与StartPre本身的功能相互干扰
+        for(int i=1;i<=n-m;i++){   //改进后，让end的初始值为第一个被交换的节点，最终这个节点将成为反转链表的最后一个节点，也符合end的语义
+            ListNode tmp=end.next;
+            end.next=end.next.next;
+            tmp.next=StartPre.next;
+            StartPre.next=tmp;
+        }
+        return Head.next;
+    }
+}

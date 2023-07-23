@@ -1,0 +1,35 @@
+import java.util.*;
+
+
+public class Solution {
+    /**
+     * 
+     * @param s string字符串 
+     * @return string字符串ArrayList
+     */
+    ArrayList<String> res=new ArrayList<>();
+    public ArrayList<String> restoreIpAddresses (String s) {
+        DFS(s,0,"",0);
+        return res;
+    }
+
+    private void DFS(String s, int beginIndex, String tmp, int prevSize) {
+        if(prevSize==4){
+            if(beginIndex==s.length()) {
+                res.add(tmp.substring(0, tmp.length() - 1));
+            }
+             return;
+        }
+        for(int i=beginIndex;i<s.length();i++){
+            if(isOK(s.substring(beginIndex,i+1))){
+                DFS(s,i+1,tmp+s.substring(beginIndex,i+1)+".",prevSize+1);
+            }
+        }
+    }
+
+    private boolean isOK(String s) {
+        if(s.length()>1&&s.substring(0,1).equals("0")||s.length()>3) return false;
+        int x=Integer.parseInt(s);
+        return x>=0&&x<=255;
+    }
+}

@@ -1,0 +1,25 @@
+public class leetcode050 {
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode(int x) { val = x; }
+    }
+    //初始思路 先序遍历 error 考虑{10,5,15,#,#,6,20}
+    public boolean isValidBST_(TreeNode root) {
+        if(root==null) return true;
+        if(root.left!=null&&root.val<=root.left.val) return false;
+        if(root.right!=null&&root.val>=root.right.val) return false;
+        return isValidBST_(root.left)&&isValidBST_(root.right);
+    }
+    //中序遍历
+    TreeNode pre=null;
+
+    public boolean isValidBST(TreeNode root) {
+        if(root==null) return true;
+        if(isValidBST(root.left)==false) return false;
+        if(pre!=null&&pre.val>=root.val) return false;
+        pre=root;
+        return isValidBST(root.right);
+    }
+}

@@ -1,0 +1,60 @@
+import java.util.List;
+
+public class leetcode039 {
+    public class TreeNode {
+      int val;
+      TreeNode left;
+      TreeNode right;
+      TreeNode(int x) { val = x; }
+  }
+  public class ListNode {
+      int val;
+      ListNode next;
+      ListNode(int x) { val = x; next = null; }
+  }
+  //给定一个单链表，其中的元素按升序排序，请将它转化成平衡二叉搜索树（BST）
+
+
+    //牛客网的一个思路 增加一个premiddle来记录middle的前一个节点
+    public TreeNode sortedListToBST(ListNode head) {
+        if(head==null) return null;
+        if(head.next==null) return new TreeNode(head.val);
+        ListNode preMiddle=null,slow=head,fast=head;
+        while(fast!=null&&fast.next!=null){
+            preMiddle=slow;
+            slow=slow.next;
+            fast=fast.next.next;
+        }
+        TreeNode root=new TreeNode(slow.val);
+        preMiddle.next=null;
+        root.left=sortedListToBST(head);
+        root.right=sortedListToBST(slow.next);
+        return root;
+    }
+
+
+    //我的 有点繁琐 原因在于middle节点没有处理好  而且牛客网不给过 因为顺序乱了
+    public TreeNode sortedListToBST_(ListNode head) {
+        //get middle
+        if(head==null) return null;
+        if(head.next==null){
+            return new TreeNode(head.val);
+        }
+        if(head.next.next==null){
+            TreeNode node=new TreeNode(head.val);
+            node.right=new TreeNode(head.next.val);
+            return node;
+        }
+        ListNode fast=head.next.next,slow=head;
+        while(fast!=null&&fast.next!=null){
+            fast=fast.next.next;
+            slow=slow.next;
+        }
+        ListNode middle=slow.next;
+        slow.next=null;
+        TreeNode root=new TreeNode(middle.val);
+        root.left=sortedListToBST(head);
+        root.right=sortedListToBST(middle.next);
+        return root;
+    }
+}

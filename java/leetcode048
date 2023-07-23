@@ -1,0 +1,34 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class leetcode048 {
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode(int x) { val = x; }
+    }
+    //判断两个二叉树是否相等 递归的思路
+    public boolean isSameTree_(TreeNode p, TreeNode q) {
+        if(p==null&&q==null) return true;
+        if(p==null||q==null||p.val!=q.val) return false;
+        return isSameTree(p.left,q.left)&&isSameTree(p.right,q.right);
+    }
+    //迭代的思路
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+         Queue<TreeNode> queue=new LinkedList<>();
+         queue.add(p);queue.add(q);
+         while(queue.isEmpty()==false){
+             TreeNode pNode=queue.poll();
+             TreeNode qNode=queue.poll();
+             //...
+             if(pNode==null&&qNode==null) continue;
+             if(pNode==null||qNode==null||pNode.val!=qNode.val) return false;
+             queue.add(pNode.left);
+             queue.add(qNode.left);
+             queue.add(pNode.right);
+             queue.add(qNode.right);
+         }
+         return true;
+    }
+}

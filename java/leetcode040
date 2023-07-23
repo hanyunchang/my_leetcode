@@ -1,0 +1,24 @@
+public class leetcode040 {
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode(int x) { val = x; }
+    }
+    //给出一个升序排序的数组，将其转化为平衡二叉搜索树（BST）.
+
+    public TreeNode sortedArrayToBST(int[] num) {
+        if(num==null) return null;
+        return DFS(num,0,num.length-1);
+    }
+
+    private TreeNode DFS(int[] num, int start, int end) {
+        if(start>end) return null; //这一步有必要，因为会出现这种情况
+        if(start==end) return new TreeNode(num[start]);
+        int middle=(start+end+1)/2;//牛客网是个大傻逼，非要顺序一致，我本来写的是(start+end)/2
+        TreeNode root=new TreeNode(num[middle]);
+        root.left=DFS(num,start,middle-1);
+        root.right=DFS(num,middle+1,end);
+        return root;
+    }
+}

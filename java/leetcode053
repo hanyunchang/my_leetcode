@@ -1,0 +1,17 @@
+public class leetcode053 {
+    //给定一个值n，能构建出多少不同的值包含1...n的二叉搜索树（BST）？
+    //例如
+    //给定 n = 3, 有五种不同的二叉搜索树（BST）
+    public int numTrees(int n) {
+        int[] res=new int[n+1];
+        res[0]=1;
+        for(int i=1;i<=n;i++){
+            int start=1,end=i,root=1;//[start,end]
+            while(root<=end){
+                res[i]+=res[root-start]*res[end-root];
+                root++;
+            }
+        }
+        return res[n];
+    }
+}

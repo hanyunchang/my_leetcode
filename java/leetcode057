@@ -1,0 +1,43 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class leetcode057 {
+    //给出一个可能包含重复元素的整数集合S，返回该整数集合的所有子集。
+    //注意：
+    //你给出的子集中的元素要按非递增的顺序排列
+    //给出的解集中不能包含重复的子集
+    //例如：
+    //如果S =[1,2,2], 给出的解集应该是：
+    //[↵  [2],↵  [1],↵  [1,2,2],↵  [2,2],↵  [1,2],↵  []↵]
+
+    //借鉴牛客网的思路：
+    //首先在代码中我们会先对其做些初始化的操作，然后递归进行，=详见代码
+    //如果我们得到了长度为k的所有不重复子集，那么我们便可以由此生成所有长度为k+1的不重复子集
+    //步骤是：对于每一个k子集，我们只从其最大下标以后的元素挑选，并且对于相同的元素只组装一次，组装成k+1的集合
+    //反证法可证明1.得到的是全部的k+1子集 2.不存在重复的k+1子集
+
+
+
+
+
+
+
+    ArrayList<ArrayList<Integer>> res=new ArrayList<>();
+    public ArrayList<ArrayList<Integer>> subsetsWithDup(int[] num) {
+        Arrays.sort(num);
+        DFS(num,new ArrayList<>(),0);
+        return res;
+    }
+
+    private void DFS(int[] num, ArrayList<Integer> tmp, int start) {
+        res.add(new ArrayList<>(tmp));
+        for(int i=start;i<num.length;i++){
+            if(i!=start&&num[i]==num[i-1])
+                continue;
+            tmp.add(num[i]);
+            DFS(num,tmp,i+1);
+            tmp.remove(tmp.size()-1);
+        }
+    }
+}

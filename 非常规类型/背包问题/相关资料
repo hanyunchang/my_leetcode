@@ -1,0 +1,10 @@
+背包问题: 背包承重V 物品个数(1/n/无限) 物品重量w 物品价值v
+1. 0/1背包
+    * 二维数组
+    * 滚动数组
+2. 完全背包
+
+参考资料：
+1. https://programmercarl.com/%E8%83%8C%E5%8C%85%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%8001%E8%83%8C%E5%8C%85-2.html#%E7%AE%97%E6%B3%95%E5%85%AC%E5%BC%80%E8%AF%BE 0/1背包之二维数组
+2. https://programmercarl.com/%E8%83%8C%E5%8C%85%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%8001%E8%83%8C%E5%8C%85-1.html#%E6%80%9D%E8%B7%AF 0/1背包之滚动数组(理解了二维数组的状态转移就不难理解滚动数组的写法)
+3. https://programmercarl.com/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80%E5%AE%8C%E5%85%A8%E8%83%8C%E5%8C%85.html#%E6%80%9D%E8%B7%AF 完全背包
